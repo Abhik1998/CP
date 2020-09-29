@@ -9,7 +9,7 @@ public class sol1
         int n=sc.nextInt();
         System.out.println("Enter the number of edges");
         int m=sc.nextInt();
-        ArrayList<Integer> g[]=new ArrayList[5];
+        ArrayList<Integer> g[]=new ArrayList[n];
         
 	    for(int i=0;i<n;i++)
 	    g[i]=new ArrayList<Integer>();
@@ -19,13 +19,14 @@ public class sol1
             g[u].add(v);
         }
 	    
-		System.out.println("Paths are "+paths(g,n));
+        System.out.println("Paths are "+paths(g,n));
+        sc.close();
 	}
 	
 	public static ArrayList<String> paths(ArrayList<Integer> g[],int n){
-	    lt=new ArrayList<>();
+        lt=new ArrayList<>();
 	    for(int i=0;i<n;i++){
-
+            
 	        helperUtil(g,n,i,new String());
 	        
         }
@@ -35,7 +36,8 @@ public class sol1
 	public static void helperUtil(ArrayList<Integer> g[],int n,int u,String s){
 	    if(s.indexOf(u)>=0)
 	    return;
-	    s+=" "+u;
+        s+=" "+u;
+        if(s.length()>2)
 	    lt.add(s.trim());
 	    for(int i=0;i<g[u].size();i++)
 	    {
