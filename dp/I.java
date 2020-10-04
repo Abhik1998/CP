@@ -9,7 +9,7 @@ public class h{
         for(int i=0;i<n;i++)
         p[i]=sc.nextDouble();
         double dp[][]=new double[n][n];
-        
+        dp[0][0]=1;
         sc.close();
     }
 }
