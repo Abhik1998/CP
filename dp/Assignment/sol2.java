@@ -1,43 +1,319 @@
-//Author Abhik Chakraborty
-import java.util.*;
-public class sol2
-{
-	public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-	    int n=sc.nextInt();
-	    
-	   ArrayList<Integer> g[]=new ArrayList[n];
-	   for(int i=0;i<n;i++)
-	   g[i]=new ArrayList<Integer>();
-	   int in[]=new int[n];
-	   int m=sc.nextInt();
-	   for(int i=0;i<m;i++)
-	   {
-	       int u=sc.nextInt(),v=sc.nextInt();
-	       g[u].add(v);
-	       in[v]+=1;
-       }
-       System.out.print("Topological Sort order is: ");
-       topoSort(g,in,n);
-       System.out.println();
-       sc.close();
-	}
-	public static void topoSort(ArrayList<Integer> g[],int in[],int n){
-	    Queue<Integer> q=new LinkedList<>();
-	    for(int i=0;i<n;i++)
-	    if(in[i]==0)
-	    q.add(i);
-	    while(!q.isEmpty()){
-	        int j=q.poll();
-	        System.out.print(j+" ");
-	        for(int i=0;i<g[j].size();i++)
-	        {
-	            
-	            if((--in[g[j].get(i)])==0)
-	            q.add(g[j].get(i));
-	        }
-	        
-	    }
-	}
-}
+// Fast IO by Abhik
+import java.io.DataInputStream; 
 
+import java.io.FileInputStream; 
+
+import java.io.IOException; 
+
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Scanner; 
+
+import java.util.StringTokenizer; 
+
+  
+
+public class sol2 
+{ 
+
+    static class Reader 
+
+    { 
+
+        final private int BUFFER_SIZE = 1 << 16; 
+
+        private DataInputStream din; 
+
+        private byte[] buffer; 
+
+        private int bufferPointer, bytesRead; 
+
+  
+
+        public Reader() 
+
+        { 
+
+            din = new DataInputStream(System.in); 
+
+            buffer = new byte[BUFFER_SIZE]; 
+
+            bufferPointer = bytesRead = 0; 
+
+        } 
+
+  
+
+        public Reader(String file_name) throws IOException 
+
+        { 
+
+            din = new DataInputStream(new FileInputStream(file_name)); 
+
+            buffer = new byte[BUFFER_SIZE]; 
+
+            bufferPointer = bytesRead = 0; 
+
+        } 
+
+  
+
+        public String readLine() throws IOException 
+
+        { 
+
+            byte[] buf = new byte[64]; // line length 
+
+            int cnt = 0, c; 
+
+            while ((c = read()) != -1) 
+
+            { 
+
+                if (c == '\n') 
+
+                    break; 
+
+                buf[cnt++] = (byte) c; 
+
+            } 
+
+            return new String(buf, 0, cnt); 
+
+        } 
+
+  
+
+        public int nextInt() throws IOException 
+
+        { 
+
+            int ret = 0; 
+
+            byte c = read(); 
+
+            while (c <= ' ') 
+
+                c = read(); 
+
+            boolean neg = (c == '-'); 
+
+            if (neg) 
+
+                c = read(); 
+
+            do
+
+            { 
+
+                ret = ret * 10 + c - '0'; 
+
+            }  while ((c = read()) >= '0' && c <= '9'); 
+
+  
+
+            if (neg) 
+
+                return -ret; 
+
+            return ret; 
+
+        } 
+
+  
+
+        public long nextLong() throws IOException 
+
+        { 
+
+            long ret = 0; 
+
+            byte c = read(); 
+
+            while (c <= ' ') 
+
+                c = read(); 
+
+            boolean neg = (c == '-'); 
+
+            if (neg) 
+
+                c = read(); 
+
+            do { 
+
+                ret = ret * 10 + c - '0'; 
+
+            } 
+
+            while ((c = read()) >= '0' && c <= '9'); 
+
+            if (neg) 
+
+                return -ret; 
+
+            return ret; 
+
+        } 
+
+  
+
+        public double nextDouble() throws IOException 
+
+        { 
+
+            double ret = 0, div = 1; 
+
+            byte c = read(); 
+
+            while (c <= ' ') 
+
+                c = read(); 
+
+            boolean neg = (c == '-'); 
+
+            if (neg) 
+
+                c = read(); 
+
+  
+
+            do { 
+
+                ret = ret * 10 + c - '0'; 
+
+            } 
+
+            while ((c = read()) >= '0' && c <= '9'); 
+
+  
+
+            if (c == '.') 
+
+            { 
+
+                while ((c = read()) >= '0' && c <= '9') 
+
+                { 
+
+                    ret += (c - '0') / (div *= 10); 
+
+                } 
+
+            } 
+
+  
+
+            if (neg) 
+
+                return -ret; 
+
+            return ret; 
+
+        } 
+
+  
+
+        private void fillBuffer() throws IOException 
+
+        { 
+
+            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE); 
+
+            if (bytesRead == -1) 
+
+                buffer[0] = -1; 
+
+        } 
+
+  
+
+        private byte read() throws IOException 
+
+        { 
+
+            if (bufferPointer == bytesRead) 
+
+                fillBuffer(); 
+
+            return buffer[bufferPointer++]; 
+
+        } 
+
+  
+
+        public void close() throws IOException 
+
+        { 
+
+            if (din == null) 
+
+                return; 
+
+            din.close(); 
+
+        } 
+
+    } 
+    public static void main(String args[])throws IOException {
+        Reader sc=new Reader();
+        int n=sc.nextInt();
+        ArrayList<Integer> g1[]=new ArrayList[n];
+        int m=sc.nextInt();
+        for(int i=0;i<n;i++)
+            g1[i]=new ArrayList<Integer>();
+        while(m-->0){
+            int u=sc.nextInt(),v=sc.nextInt();
+            g1[u-1].add(v-1);
+            g1[v-1].add(u-1);
+        }
+        HashSet<HashSet<Integer>> component1=new HashSet<>();
+        boolean vis[]=new boolean[n];
+        for(int i=0;i<n;i++)
+        {
+            if(!vis[i])
+            {
+                HashSet<Integer> h=new HashSet<>();
+                dfsUtil(g1,i,vis,h);
+                component1.add(h);
+            }
+            
+        }
+        ArrayList<Integer> g2[]=new ArrayList[n];
+        for(int i=0;i<n;i++)
+            g2[i]=new ArrayList<Integer>();
+        m=sc.nextInt();
+        while(m-->0){
+            int u=sc.nextInt(),v=sc.nextInt();
+            g2[u-1].add(v-1);
+            g2[v-1].add(u-1);
+        }
+        vis=new boolean[n];
+        HashSet<HashSet<Integer>> component2=new HashSet<>();
+        for(int i=0;i<n;i++)
+        {
+            if(!vis[i])
+            {
+                HashSet<Integer> h=new HashSet<>();
+                dfsUtil(g2,i,vis,h);
+                component2.add(h);
+            }
+        }
+        if(component1.equals(component2))
+            System.out.println("Yes");
+            else
+            System.out.println("NO");
+    }
+    public static void dfsUtil(ArrayList<Integer> g1[],int i,boolean vis[],HashSet<Integer> h){
+            vis[i]=true;
+            h.add(i);
+            for(int j=0;j<g1[i].size();j++)
+            {
+                if(!vis[g1[i].get(j)])
+                dfsUtil(g1, g1[i].get(j), vis,h);
+            }
+    }
+    
+
+}
