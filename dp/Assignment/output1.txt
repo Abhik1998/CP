@@ -1,0 +1,6 @@
+Connected components list - 
+6 7 5 
+4 
+2 3 1 
+
+Total strongly connected components are 3
